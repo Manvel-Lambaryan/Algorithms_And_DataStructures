@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Nexus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="main-container">
+    <header>
+      <h1>Chess Nexus</h1>
+      <p>Your portal to digital strategy.</p>
+    </header>
+    <main>
+      <div class="board-container">
+        <div class="game-info">
+          <div id="white-timer" class="timer"></div>
+        </div>
+        <div id="chessboard"></div>
+        <div class="game-info">
+          <div id="black-timer" class="timer"></div>
+        </div>
+      </div>
+      <div id="status"></div>
+      <div class="controls">
+        <button id="start-btn" class="main-action">Սկսել</button>
+        <button id="reset-btn">Նոր Խաղ</button>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

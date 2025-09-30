@@ -1,0 +1,299 @@
+:root {
+  --light-square: #e8d7b3;
+  --dark-square: #a7886a;
+  --board-border: #523a28;
+  --piece-light: #f5f5f5;
+  --piece-dark: #2c2c2c;
+  --selected-color: #f7a353;
+  --highlight-color: rgba(255, 215, 0, 0.6);
+  --ui-bg: rgba(0, 0, 0, 0.4);
+  --ui-border: rgba(255, 255, 255, 0.1);
+  --dot-color: rgba(255, 255, 255, 0.5);
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #4a382c;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('king-chess-3840x2160-16641.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  background-color: var(--ui-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  border: 1px solid var(--ui-border);
+}
+
+header h1 {
+  font-family: 'Times New Roman', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--light-square);
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  letter-spacing: 3px;
+  margin: 0 0 0.5rem 0;
+}
+
+header p {
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: var(--light-square);
+  opacity: 0.9;
+  font-style: italic;
+  margin: 0;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, min(8vw, 65px));
+  grid-template-rows: repeat(8, min(8vw, 65px));
+  border: 15px solid var(--board-border);
+  border-radius: 5px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+
+.square {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.8rem, 5.5vw, 4rem);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.light {
+  background-color: var(--light-square);
+}
+
+.dark {
+  background-color: var(--dark-square);
+}
+
+.square:hover {
+  transform: scale(1.05);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.glow-piece {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--piece-light);
+  transition: color 0.2s ease;
+}
+
+.glow-piece[data-color='b'] {
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  color: var(--piece-dark);
+}
+
+.selected {
+  outline: 3px solid var(--selected-color);
+  box-shadow: inset 0 0 15px var(--selected-color), 0 0 25px var(--selected-color);
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.dot-highlight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: var(--dot-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: dot-pulse 1s infinite alternate;
+}
+
+.capture-highlight {
+  position: relative;
+}
+
+.capture-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid var(--highlight-color);
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: 1;
+  animation: capture-pulse 1s infinite alternate;
+}
+
+#status {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  margin-top: 1.5rem;
+  color: var(--selected-color);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  min-height: 1.5em;
+  font-weight: bold;
+}
+
+.controls button {
+  background-color: #523a28;
+  color: #fff;
+  border: 2px solid #7a614d;
+  padding: 0.8rem 1.8rem;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  margin: 1rem 0.5rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.controls button:hover {
+  background-color: #7a614d;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.controls .main-action {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  background-color: #d4ac0d;
+  border-color: #a3810a;
+  box-shadow: 0 5px 20px rgba(212, 172, 13, 0.8);
+  color: #fff;
+}
+
+.controls .main-action:hover {
+  background-color: #a3810a;
+  box-shadow: 0 0 30px rgba(212, 172, 13, 0.9);
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #fff;
+  width: 100%;
+  max-width: 180px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.timer {
+  background-color: #523a28;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid #7a614d;
+  text-align: center;
+  margin: 10px 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+}
+
+.timer.active {
+  box-shadow: 0 0 20px var(--highlight-color);
+  animation: timer-glow 1.5s infinite alternate;
+  border-color: var(--highlight-color);
+}
+
+.game-info, #chessboard {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game-started .game-info, .game-started #chessboard {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Ոճ՝ ընկերոջ դեմ խաղալու դիզայնից */
+
+.dot-highlight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: var(--dot-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: dot-pulse 1s infinite alternate;
+}
+
+.capture-highlight {
+  position: relative;
+}
+
+.capture-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid var(--highlight-color);
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: 1;
+  animation: capture-pulse 1s infinite alternate;
+}
+
+@keyframes timer-glow {
+  from { box-shadow: 0 0 10px var(--highlight-color); }
+  to { box-shadow: 0 0 25px var(--highlight-color); }
+}
+
+@keyframes dot-pulse {
+  from { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+  to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+@keyframes capture-pulse {
+  from { transform: scale(0.9); opacity: 0.8; }
+  to { transform: scale(1.05); opacity: 1; }
+}
+
+@media (min-width: 768px) {
+  .board-container {
+    flex-direction: row;
+    gap: 50px;
+  }
+}
