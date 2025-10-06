@@ -276,6 +276,17 @@ class SinglyLinkedList {
     return list;
   }
 
+  print() {
+    let str = "";
+    const current = this.head;
+    while (current) {
+      str += current.value + "-->";
+      current = current.next;
+    }
+    str += null;
+    console.log(str);
+  }
+
   [Symbol.iterator]() {
     let current = this.head;
     return {
@@ -287,7 +298,7 @@ class SinglyLinkedList {
         } else {
           return { done: true };
         }
-      }
+      },
     };
   }
 }
@@ -340,9 +351,9 @@ numbers.merge(otherList);
 console.log(`Merged list: ${numbers.toArray()}`);
 console.log(`Other list after merge (it's cleared): ${otherList.toArray()}`);
 
-const colors = SinglyLinkedList.fromArray(['red', 'green', 'blue']);
-let output = 'Iterating with for...of: ';
+const colors = SinglyLinkedList.fromArray(["red", "green", "blue"]);
+let output = "Iterating with for...of: ";
 for (const color of colors) {
-  output += color + ', ';
+  output += color + ", ";
 }
 console.log(output);
