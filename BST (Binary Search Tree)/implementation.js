@@ -93,6 +93,30 @@ class BinarySearchTree {
     return result;
   }
 
+  postOrder() {
+    let result = [];
+    const recursion = (node) => {
+      if (!node) return result;
+      recursion(node.left);
+      recursion(node.right);
+      result.push(node.data);
+    };
+    recursion(this.root);
+    return result;
+  }
+
+  preOrder() {
+    let result = [];
+    const recursion = (node) => {
+      if (!node) return result;
+      result.push(node.data);
+      recursion(node.left);
+      recursion(node.right);
+    };
+    recursion(this.root);
+    return result;
+  }
+
   getHeight() {
     if (!this.root) return 0;
     let queue = [this.root];

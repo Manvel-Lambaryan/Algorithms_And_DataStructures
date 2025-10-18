@@ -10,7 +10,7 @@ class LinkedList {
   #head = null;
   #tail = null;
   #size = 0;
-
+  
   constructor(iterable = []) {
     if (iterable && typeof iterable[Symbol.iterator] === "function") {
       for (const item of iterable) this.push_back(item);
