@@ -13,7 +13,7 @@ class BinarySearchTree {
 
   insertRecursion(val) {
     const insertRec = (node, val) => {
-      if (node === null) return new TreeNode(val);
+      if (!node) return new TreeNode(val);
       if (val < node.data) node.left = insertRec(node.left, val);
       else if (val > node.data) node.right = insertRec(node.right, val);
       return node;
@@ -21,6 +21,53 @@ class BinarySearchTree {
     this.root = insertRec(this.root, val);
   }
 
+  printTree() {
+    if (!this.root) return;
+
+    const buildTreeLines = (node) => {
+      if (!node) return { lines: [], width: 0, middle: 0 };
+
+      const left = buildTreeLines(node.left);
+      const right = buildTreeLines(node.right);
+
+      const valStr = node.data.toString();
+      const valWidth = valStr.length;
+
+      const firstLine = [];
+      const secondLine = [];
+
+      const gap = 2;
+
+      const leftWidth = left.width;
+      const rightWidth = right.width;
+
+      const middle = leftWidth + Math.floor(gap / 2);
+
+      const line = " ".repeat(leftWidth) + valStr + " ".repeat(rightWidth);
+
+      const branchLine =
+        (leftWidth > 0 ? " ".repeat(leftWidth - 1) + "/" : "") +
+        " ".repeat(valWidth + (rightWidth > 0 ? 1 : 0)) +
+        (rightWidth > 0 ? "\\" : "");
+
+      const childLines = [];
+      const maxChildHeight = Math.max(left.lines.length, right.lines.length);
+      for (let i = 0; i < maxChildHeight; i++) {
+        const lLine = left.lines[i] || " ".repeat(leftWidth);
+        const rLine = right.lines[i] || " ".repeat(rightWidth);
+        childLines.push(lLine + " ".repeat(valWidth) + rLine);
+      }
+
+      return {
+        lines: [line, branchLine, ...childLines],
+        width: leftWidth + valWidth + rightWidth,
+        middle: middle,
+      };
+    };
+
+    const tree = buildTreeLines(this.root);
+    for (const line of tree.lines) console.log(line);
+  }
   insertIterative(val) {
     let newNode = new TreeNode(val);
     if (!this.root) {
@@ -184,10 +231,24 @@ bst.insertRecursion(10);
 bst.insertRecursion(5);
 bst.insertRecursion(15);
 bst.insertRecursion(7);
+bst.insertRecursion(3);
+bst.insertRecursion(20);
+bst.insertRecursion(11);
+bst.insertRecursion(12);
+bst.insertRecursion(24);
+bst.insertRecursion(16);
+bst.insertRecursion(5);
 
-console.log(bst.inOrder()); // [5, 7, 10, 15]
-console.log(bst.levelOrder()); // [10, 5, 15, 7]
-console.log(bst.getHeight()); // 3
-console.log(bst.containsIterative(7)); // true
+// Print tree visually
+bst.printTree();
+
+// Example outputs for traversals
+console.log("InOrder:", bst.inOrder()); // [3,5,7,10,15,20]
+console.log("LevelOrder:", bst.levelOrder()); // [10,5,15,3,7,20]
+console.log("Height:", bst.getHeight()); // 3
+console.log("Contains 7:", bst.containsIterative(7)); // true
+
+// Remove a node and print again
 bst.remove(5);
-console.log(bst.inOrder()); // [7, 10, 15]
+bst.printTree();
+console.log("InOrder after remove 5:", bst.inOrder()); // [3,7,10,15,20]
