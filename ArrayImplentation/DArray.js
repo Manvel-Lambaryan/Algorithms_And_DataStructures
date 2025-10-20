@@ -66,7 +66,7 @@ class DArray {
   }
 
   insert(pos, value) {
-    this.push_back(0);
+    arr.push_back(0);
     for (let i = this.#size - 1; i > pos; i--) {
       this.#arr[i] = this.#arr[i - 1];
     }
